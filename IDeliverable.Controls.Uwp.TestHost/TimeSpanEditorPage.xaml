@@ -15,17 +15,58 @@
 				<StackPanel Padding="8,8,8,8">
 					<TextBlock Margin="0,0,0,2" Text="Precision:" TextWrapping="Wrap"/>
 					<ComboBox x:Name="PrecisionComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" SelectionChanged="PrecisionComboBox_SelectionChanged"/>
+					<TextBlock Margin="0,0,0,2" Text="Min:" TextWrapping="Wrap"/>
+					<TextBox x:Name="MinValueTextBox" Margin="0,0,0,8" Text="" LostFocus="MinValueTextBox_LostFocus"/>
+					<TextBlock Margin="0,0,0,2" Text="Max:" TextWrapping="Wrap"/>
+					<TextBox x:Name="MaxValueTextBox" Margin="0,0,0,8" Text="" LostFocus="MaxValueTextBox_LostFocus"/>
 					<TextBlock Margin="0,0,0,2" Text="Value:" TextWrapping="Wrap"/>
 					<TextBox x:Name="ValueTextBox" Margin="0,0,0,8" Text="" LostFocus="ValueTextBox_LostFocus"/>
+					<TextBlock Margin="0,0,0,2" Text="Increments:" TextWrapping="Wrap"/>
+					<Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="0" Text="Minutes" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<TextBlock Margin="0,0,0,2" HorizontalAlignment="Left" Grid.Column="1" Text="Seconds" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<ComboBox Grid.Row="1" Grid.Column="0" x:Name="MinuteIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,4,8" VerticalAlignment="Stretch" SelectionChanged="MinuteIncrementComboBox_SelectionChanged"/>
+						<ComboBox Grid.Row="1" Grid.Column="1" x:Name="SecondIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" SelectionChanged="SecondIncrementComboBox_SelectionChanged"/>
+					</Grid>
+
+					<TextBlock Margin="0,0,0,2" Text="Labels:" TextWrapping="Wrap"/>
+					<Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="0" Text="Days" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="1" Text="Hours" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="2" Text="Minutes" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<TextBlock Margin="0,0,0,2" HorizontalAlignment="Left" Grid.Column="3" Text="Seconds" TextWrapping="Wrap" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="1" Grid.Column="0" x:Name="DaysLabelTextBox" Margin="0,0,4,8" LostFocus="DaysLabelTextBox_LostFocus"/>
+						<TextBox Grid.Row="1" Grid.Column="1" x:Name="HoursLabelTextBox" Margin="0,0,4,8" LostFocus="HoursLabelTextBox_LostFocus"/>
+						<TextBox Grid.Row="1" Grid.Column="2" x:Name="MinutesLabelTextBox" Margin="0,0,4,8" LostFocus="MinutesLabelTextBox_LostFocus"/>
+						<TextBox Grid.Row="1" Grid.Column="3" x:Name="SecondsLabelTextBox" Margin="0,0,0,8" LostFocus="SecondsLabelTextBox_LostFocus"/>
+					</Grid>
+
 				</StackPanel>
 			</Grid>
 		</SplitView.Pane>
 		<Grid>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="29*"/>
-				<RowDefinition Height="91*"/>
+				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<Custom:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="200" Height="400" Grid.RowSpan="2" ValueChanged="Editor_ValueChanged"/>
+			<Custom:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="200" Height="400" Grid.RowSpan="2"/>
 		</Grid>
 	</SplitView>
 </Page>

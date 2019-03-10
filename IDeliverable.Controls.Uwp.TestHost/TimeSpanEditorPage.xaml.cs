@@ -1,5 +1,5 @@
-﻿using System;
-using IDeliverable.Controls.Uwp.TimeSpanPicker;
+﻿using IDeliverable.Controls.Uwp.TimeSpanPicker;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,7 +16,22 @@ namespace IDeliverable.Controls.Uwp.TestHost
 		{
 			PrecisionComboBox.ItemsSource = Enum.GetNames(typeof(TimePrecision));
 			PrecisionComboBox.SelectedItem = Editor.Precision.ToString();
+			MinValueTextBox.Text = Editor.MinValue.ToString();
+			MaxValueTextBox.Text = Editor.MaxValue.ToString();
 			ValueTextBox.Text = Editor.Value.ToString();
+			MinuteIncrementComboBox.ItemsSource = Enum.GetNames(typeof(TimeIncrement));
+			MinuteIncrementComboBox.SelectedItem = Editor.MinuteIncrement.ToString();
+			SecondIncrementComboBox.ItemsSource = Enum.GetNames(typeof(TimeIncrement));
+			SecondIncrementComboBox.SelectedItem = Editor.SecondIncrement.ToString();
+			DaysLabelTextBox.Text = Editor.DaysLabel;
+			HoursLabelTextBox.Text = Editor.HoursLabel;
+			MinutesLabelTextBox.Text = Editor.MinutesLabel;
+			SecondsLabelTextBox.Text = Editor.SecondsLabel;
+
+			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.PrecisionProperty, (_, dp) => PrecisionComboBox.SelectedItem = Editor.Precision.ToString());
+			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.MinValueProperty, (_, dp) => MinValueTextBox.Text = Editor.MinValue.ToString());
+			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.MaxValueProperty, (_, dp) => MaxValueTextBox.Text = Editor.MaxValue.ToString());
+			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.ValueProperty, (_, dp) => ValueTextBox.Text = Editor.Value.ToString());
 		}
 
 		private void PrecisionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -24,17 +39,60 @@ namespace IDeliverable.Controls.Uwp.TestHost
 			Editor.Precision = (TimePrecision)Enum.Parse(typeof(TimePrecision), (string)PrecisionComboBox.SelectedItem);
 		}
 
-		private void ValueTextBox_LostFocus(object sender, RoutedEventArgs e)
+		private void MinValueTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (TimeSpan.TryParse(ValueTextBox.Text, out var newValue))
-				Editor.Value = newValue;
-			else
-				ValueTextBox.Text = Editor.Value.ToString();
+			ParseTimeSpanEntry(MinValueTextBox, Editor.MinValue, newValue => Editor.MinValue = newValue);
 		}
 
-		private void Editor_ValueChanged(object sender, TimeSpanChangedEventArgs e)
+		private void MaxValueTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			ValueTextBox.Text = Editor.Value.ToString();
+			ParseTimeSpanEntry(MaxValueTextBox, Editor.MaxValue, newValue => Editor.MaxValue = newValue);
+		}
+
+		private void ValueTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			ParseTimeSpanEntry(ValueTextBox, Editor.Value, newValue => Editor.Value = newValue);
+		}
+
+		private void MinuteIncrementComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Editor.MinuteIncrement = (TimeIncrement)Enum.Parse(typeof(TimeIncrement), (string)MinuteIncrementComboBox.SelectedItem);
+		}
+
+		private void SecondIncrementComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Editor.SecondIncrement = (TimeIncrement)Enum.Parse(typeof(TimeIncrement), (string)SecondIncrementComboBox.SelectedItem);
+		}
+
+		private void DaysLabelTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			Editor.DaysLabel = DaysLabelTextBox.Text;
+		}
+
+		private void HoursLabelTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			Editor.HoursLabel = HoursLabelTextBox.Text;
+		}
+
+		private void MinutesLabelTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			Editor.MinutesLabel = MinutesLabelTextBox.Text;
+		}
+
+		private void SecondsLabelTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			Editor.SecondsLabel = SecondsLabelTextBox.Text;
+		}
+
+		private void ParseTimeSpanEntry(TextBox textBox, TimeSpan currentValue, Action<TimeSpan> setResultAction)
+		{
+			if (TimeSpan.TryParse(textBox.Text, out var newValue))
+			{
+				setResultAction(newValue);
+				textBox.Text = newValue.ToString();
+			}
+			else
+				textBox.Text = currentValue.ToString();
 		}
 	}
 }

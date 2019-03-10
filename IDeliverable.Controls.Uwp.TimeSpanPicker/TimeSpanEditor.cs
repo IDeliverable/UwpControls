@@ -9,6 +9,21 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
 	public sealed class TimeSpanEditor : Control, ITimeSpanEditor
 	{
+		public static DependencyProperty PrecisionProperty { get; } =
+			DependencyProperty.Register(
+				nameof(Precision),
+				typeof(TimePrecision),
+				typeof(TimeSpanEditor),
+				new PropertyMetadata(
+					TimePrecision.Seconds,
+					(d, e) =>
+					{
+						var editor = (TimeSpanEditor)d;
+						var newValue = (TimePrecision)e.NewValue;
+						editor.AdjustMaxValue(newValue);
+						editor.ConfigureSelectors();
+					}));
+
 		public static DependencyProperty MinValueProperty { get; } =
 			DependencyProperty.Register(
 				nameof(MinValue),
@@ -68,6 +83,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 					{
 						var editor = (TimeSpanEditor)d;
 						var newValue = (TimeIncrement)e.NewValue;
+						editor.AdjustValue();
 						editor.ConfigureSelectors();
 					}));
 
@@ -82,21 +98,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 					{
 						var editor = (TimeSpanEditor)d;
 						var newValue = (TimeIncrement)e.NewValue;
-						editor.ConfigureSelectors();
-					}));
-
-		public static DependencyProperty PrecisionProperty { get; } =
-			DependencyProperty.Register(
-				nameof(Precision),
-				typeof(TimePrecision),
-				typeof(TimeSpanEditor),
-				new PropertyMetadata(
-					TimePrecision.Seconds,
-					(d, e) =>
-					{
-						var editor = (TimeSpanEditor)d;
-						var newValue = (TimePrecision)e.NewValue;
-						editor.AdjustMaxValue(newValue);
+						editor.AdjustValue();
 						editor.ConfigureSelectors();
 					}));
 
@@ -141,6 +143,12 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		private bool mTemplateIsApplied = false;
 
+		public TimePrecision Precision
+		{
+			get => (TimePrecision)GetValue(PrecisionProperty);
+			set => SetValue(PrecisionProperty, value);
+		}
+
 		public TimeSpan MinValue
 		{
 			get => (TimeSpan)GetValue(MinValueProperty);
@@ -161,7 +169,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				var oldValue = (TimeSpan)GetValue(ValueProperty);
 				SetValue(ValueProperty, value);
 				if (value != oldValue)
-					ValueChanged.Invoke(this, new TimeSpanChangedEventArgs(oldValue, value));
+					ValueChanged?.Invoke(this, new TimeSpanChangedEventArgs(oldValue, value));
 			}
 		}
 
@@ -177,12 +185,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		{
 			get => (TimeIncrement)GetValue(SecondIncrementProperty);
 			set => SetValue(SecondIncrementProperty, value);
-		}
-
-		public TimePrecision Precision
-		{
-			get => (TimePrecision)GetValue(PrecisionProperty);
-			set => SetValue(PrecisionProperty, value);
 		}
 
 		public string DaysLabel
@@ -248,7 +250,8 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			if (!mTemplateIsApplied)
 				return;
 
-			// Determine days selector visibility.
+			// Determine visibility of day, hour, minute and second selectors, respectively.
+
 			if (MaxValue >= TimeSpan.FromDays(1))
 			{
 				mSelectorGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
@@ -260,7 +263,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				mDaysSelector.Visibility = Visibility.Collapsed;
 			}
 
-			// Determine hours selector visibility.
 			if (MaxValue >= TimeSpan.FromHours(1) && Precision >= TimePrecision.Hours)
 			{
 				mSelectorGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
@@ -272,7 +274,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				mHoursSelector.Visibility = Visibility.Collapsed;
 			}
 
-			// Determine minutes selector visibility.
 			if (MaxValue >= TimeSpan.FromMinutes(1) && Precision >= TimePrecision.Minutes)
 			{
 				mSelectorGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
@@ -284,7 +285,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				mMinutesSelector.Visibility = Visibility.Collapsed;
 			}
 
-			// Determine seconds selector visibility.
 			if (Precision >= TimePrecision.Seconds)
 			{
 				mSelectorGrid.ColumnDefinitions[3].Width = new GridLength(1, GridUnitType.Star);
@@ -296,22 +296,20 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				mSecondsSelector.Visibility = Visibility.Collapsed;
 			}
 
-			// Determine the set of day values to show.
+			// Determine the set of day, hour and minute values to show.
+
 			mDaysSelector.ItemsSource = CreateRange(MinValue.Days, MaxValue.Days, TimeIncrement.One);
 
-			// Determine the set of hour values to show.
 			if ((MaxValue - MinValue).TotalDays >= 1 || MaxValue.Days > MinValue.Days)
 				mHoursSelector.ItemsSource = CreateRange(0, 23, TimeIncrement.One);
 			else
 				mHoursSelector.ItemsSource = CreateRange(MinValue.Hours, MaxValue.Hours, TimeIncrement.One);
 
-			// Determine the set of minute values to show.
 			if ((MaxValue - MinValue).TotalHours >= 1 || MaxValue.Hours > MinValue.Hours)
 				mMinutesSelector.ItemsSource = CreateRange(0, 59, MinuteIncrement);
 			else
 				mMinutesSelector.ItemsSource = CreateRange(MinValue.Minutes, MaxValue.Minutes, MinuteIncrement);
 
-			// Determine the set of second values to show.
 			if ((MaxValue - MinValue).TotalMinutes >= 1 || MaxValue.Minutes > MinValue.Minutes)
 				mSecondsSelector.ItemsSource = CreateRange(0, 59, SecondIncrement);
 			else
@@ -350,7 +348,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		{
 			var rangeQuery =
 				from i in Enumerable.Range(start, end - start + 1)
-				where i == start || i == end || i % (int)increment == 0
+				where i % (int)increment == 0
 				select i;
 
 			return rangeQuery.ToArray();

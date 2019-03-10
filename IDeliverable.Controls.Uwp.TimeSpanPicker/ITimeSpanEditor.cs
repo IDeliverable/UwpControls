@@ -4,6 +4,8 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
 	interface ITimeSpanEditor
 	{
+		TimePrecision Precision { get; set; }
+
 		TimeSpan MinValue { get; set; }
 
 		TimeSpan MaxValue { get; set; }
@@ -16,8 +18,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		TimeIncrement SecondIncrement { get; set; }
 
-		TimePrecision Precision { get; set; }
-
 		string DaysLabel { get; set; }
 
 		string HoursLabel { get; set; }
@@ -29,12 +29,14 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 	internal static class ITimeSpanEditorExtensions
 	{
-		public static void AdjustValue(this ITimeSpanEditor target)
+		public static void AdjustPrecision(this ITimeSpanEditor target, TimeSpan newMaxValue)
 		{
-			if (target.Value < target.MinValue)
-				target.Value = target.MinValue;
-			if (target.Value > target.MaxValue)
-				target.Value = target.MaxValue;
+			if (newMaxValue < TimeSpan.FromMinutes(1) && target.Precision == TimePrecision.Minutes)
+				target.Precision = TimePrecision.Seconds;
+			else if (newMaxValue < TimeSpan.FromHours(1) && target.Precision == TimePrecision.Hours)
+				target.Precision = TimePrecision.Minutes;
+			else if (newMaxValue < TimeSpan.FromDays(1) && target.Precision == TimePrecision.Days)
+				target.Precision = TimePrecision.Hours;
 		}
 
 		public static void AdjustMinValue(this ITimeSpanEditor target, TimeSpan newMaxValue)
@@ -59,14 +61,18 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				target.MaxValue = TimeSpan.FromMinutes(1);
 		}
 
-		public static void AdjustPrecision(this ITimeSpanEditor target, TimeSpan newMaxValue)
+		public static void AdjustValue(this ITimeSpanEditor target)
 		{
-			if (newMaxValue < TimeSpan.FromMinutes(1) && target.Precision == TimePrecision.Minutes)
-				target.Precision = TimePrecision.Seconds;
-			else if (newMaxValue < TimeSpan.FromHours(1) && target.Precision == TimePrecision.Hours)
-				target.Precision = TimePrecision.Minutes;
-			else if (newMaxValue < TimeSpan.FromDays(1) && target.Precision == TimePrecision.Days)
-				target.Precision = TimePrecision.Hours;
+			// Truncate to nearest increment for minutes and seconds.
+			var excessMinutes = target.Value.Minutes % (int)target.MinuteIncrement;
+			var excessSeconds = target.Value.Seconds % (int)target.SecondIncrement;
+			target.Value = new TimeSpan(target.Value.Days, target.Value.Hours, target.Value.Minutes - excessMinutes, target.Value.Seconds - excessSeconds);
+				
+			// Truncate to min and max values.
+			if (target.Value < target.MinValue)
+				target.Value = target.MinValue;
+			if (target.Value > target.MaxValue)
+				target.Value = target.MaxValue;
 		}
 	}
 }
