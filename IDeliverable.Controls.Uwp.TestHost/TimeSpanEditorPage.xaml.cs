@@ -27,6 +27,7 @@ namespace IDeliverable.Controls.Uwp.TestHost
 			HoursLabelTextBox.Text = Editor.HoursLabel;
 			MinutesLabelTextBox.Text = Editor.MinutesLabel;
 			SecondsLabelTextBox.Text = Editor.SecondsLabel;
+			IsEnabledCheckBox.IsChecked = Editor.IsEnabled;
 
 			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.PrecisionProperty, (_, dp) => PrecisionComboBox.SelectedItem = Editor.Precision.ToString());
 			Editor.RegisterPropertyChangedCallback(TimeSpanEditor.MinValueProperty, (_, dp) => MinValueTextBox.Text = Editor.MinValue.ToString());

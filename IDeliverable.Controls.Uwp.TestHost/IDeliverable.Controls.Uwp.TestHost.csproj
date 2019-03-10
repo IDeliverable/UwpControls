@@ -157,6 +157,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IDeliverable.Controls.Uwp.ScrollSelector\IDeliverable.Controls.Uwp.ScrollSelector.csproj">
+      <Project>{cbf55620-c9e0-4f97-84d1-beb5f509b054}</Project>
+      <Name>IDeliverable.Controls.Uwp.ScrollSelector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IDeliverable.Controls.Uwp.TimeSpanPicker\IDeliverable.Controls.Uwp.TimeSpanPicker.csproj">
       <Project>{a4e9a8af-5bb4-478b-83f5-c8b38ddd0f13}</Project>
       <Name>IDeliverable.Controls.Uwp.TimeSpanPicker</Name>

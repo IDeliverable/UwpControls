@@ -3,6 +3,7 @@
 		<!-- The built-in StackPanel reports incorrect snap points in combination with padding. This one does not. -->
 		<ss:ScrollStackPanel x:Name="ItemsPanel" Padding="0,9999,0,9999" />
 	</ItemsPanelTemplate>
+	<SolidColorBrush x:Key="ScrollSelectorHeaderBackgroundBrush" Color="{ThemeResource SystemChromeMediumColor}"/>
 	<Style x:Key="ScrollSelectorItemContainerStyle" TargetType="ListViewItem">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="False" />
@@ -39,17 +40,17 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ss:ScrollSelector">
-					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+					<Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerUiStates">
 								<VisualState x:Name="PointerUiHidden">
 									<Storyboard>
-										<DoubleAnimation Duration="0:0:0.8" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Opacity" To="0" />
-										<ObjectAnimationUsingKeyFrames BeginTime="0:0:0.8" Duration="0:0:0.1" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Visibility">
+										<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Opacity" To="0" />
+										<ObjectAnimationUsingKeyFrames BeginTime="0:0:0.1" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
 										</ObjectAnimationUsingKeyFrames>
-										<DoubleAnimation Duration="0:0:0.8" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Opacity" To="0" />
-										<ObjectAnimationUsingKeyFrames BeginTime="0:0:2.8" Duration="0:0:0.1" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
+										<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Opacity" To="0" />
+										<ObjectAnimationUsingKeyFrames BeginTime="0:0:0.1" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
@@ -59,11 +60,11 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
 										</ObjectAnimationUsingKeyFrames>
-										<DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Opacity" To="1" />
+										<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="UpButton" Storyboard.TargetProperty="Opacity" To="1" />
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
 										</ObjectAnimationUsingKeyFrames>
-										<DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Opacity" To="1" />
+										<DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="DownButton" Storyboard.TargetProperty="Opacity" To="1" />
 									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>
@@ -73,14 +74,44 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
-							<ContentPresenter x:Name="HeaderContentPresenter" x:DeferLoadStrategy="Lazy" Visibility="Collapsed" Foreground="{ThemeResource TextControlHeaderForeground}" Margin="2,2,2,4" HorizontalAlignment="Center" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" FontWeight="Normal" />
+							<ContentPresenter x:Name="HeaderContentPresenter" x:DeferLoadStrategy="Lazy" Visibility="Collapsed" Background="{ThemeResource ScrollSelectorHeaderBackgroundBrush}" Foreground="{ThemeResource TextControlHeaderForeground}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="2" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" FontWeight="Normal" />
 							<ScrollViewer x:Name="ItemsScrollViewer" Grid.Row="1" VerticalSnapPointsAlignment="Center" VerticalSnapPointsType="Mandatory" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Hidden">
 								<ItemsPresenter x:Name="Presenter" />
 							</ScrollViewer>
-							<Button x:Name="UpButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="8,2" IsTabStop="False" Background="{TemplateBinding Background}" Style="{StaticResource DateTimePickerFlyoutButtonStyle}">
+							<Button x:Name="UpButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="8,2" IsTabStop="False">
+								<Button.Resources>
+									<ResourceDictionary>
+										<ResourceDictionary.ThemeDictionaries>
+											<!-- Would be nice if these resources could be reused across both buttons instead or duplicated. -->
+											<ResourceDictionary x:Key="Light">
+												<SolidColorBrush x:Key="ButtonBackground" Color="{ThemeResource SystemChromeMediumColor}" />
+												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemChromeHighColor}" />
+												<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SystemChromeDisabledLowColor}" />
+												<SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+												<SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+												<SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+											</ResourceDictionary>
+										</ResourceDictionary.ThemeDictionaries>
+									</ResourceDictionary>
+								</Button.Resources>
 								<FontIcon Glyph="&#xF106;" FontFamily="ms-appx:///IDeliverable.Controls.Uwp.ScrollSelector/Assets/FontAwesome.ttf#FontAwesome" Foreground="{TemplateBinding Foreground}" />
 							</Button>
-							<Button x:Name="DownButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="8,2" IsTabStop="False" Background="{TemplateBinding Background}" Style="{StaticResource DateTimePickerFlyoutButtonStyle}">
+							<Button x:Name="DownButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="8,2" IsTabStop="False">
+								<Button.Resources>
+									<ResourceDictionary>
+										<ResourceDictionary.ThemeDictionaries>
+											<!-- Would be nice if these resources could be reused across both buttons instead or duplicated. -->
+											<ResourceDictionary x:Key="Light">
+												<SolidColorBrush x:Key="ButtonBackground" Color="{ThemeResource SystemChromeMediumColor}" />
+												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemChromeHighColor}" />
+												<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SystemChromeDisabledLowColor}" />
+												<SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+												<SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+												<SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+											</ResourceDictionary>
+										</ResourceDictionary.ThemeDictionaries>
+									</ResourceDictionary>
+								</Button.Resources>
 								<FontIcon Glyph="&#xF107;" FontFamily="ms-appx:///IDeliverable.Controls.Uwp.ScrollSelector/Assets/FontAwesome.ttf#FontAwesome" Foreground="{TemplateBinding Foreground}" />
 							</Button>
 							<Rectangle x:Name="SelectionHighlight" Grid.Row="1" Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}" Height="30" VerticalAlignment="Center" IsHitTestVisible="False" />
