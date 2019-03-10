@@ -5,18 +5,20 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:TimeSpanEditor">
-					<Grid x:Name="SelectorGrid">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" />
-						<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" />
-						<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" />
-						<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" />
-					</Grid>
+					<Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid x:Name="SelectorGrid">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
+							<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" />
+							<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" />
+							<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" />
+							<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" />
+						</Grid>
+					</Border>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
