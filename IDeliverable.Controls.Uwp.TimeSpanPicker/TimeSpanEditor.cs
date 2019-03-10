@@ -107,28 +107,28 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				nameof(DaysLabel),
 				typeof(string),
 				typeof(TimeSpanEditor),
-				new PropertyMetadata("d"));
+				new PropertyMetadata("D"));
 
 		public static DependencyProperty HoursLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(HoursLabel),
 				typeof(string),
 				typeof(TimeSpanEditor),
-				new PropertyMetadata("h"));
+				new PropertyMetadata("H"));
 
 		public static DependencyProperty MinutesLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(MinutesLabel),
 				typeof(string),
 				typeof(TimeSpanEditor),
-				new PropertyMetadata("min"));
+				new PropertyMetadata("M"));
 
 		public static DependencyProperty SecondsLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(SecondsLabel),
 				typeof(string),
 				typeof(TimeSpanEditor),
-				new PropertyMetadata("s"));
+				new PropertyMetadata("S"));
 
 		public TimeSpanEditor()
 		{
@@ -294,6 +294,18 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			{
 				mSelectorGrid.ColumnDefinitions[3].Width = new GridLength(0, GridUnitType.Star);
 				mSecondsSelector.Visibility = Visibility.Collapsed;
+			}
+
+			// Show a left border on all selectors except the left-most visible one.
+			var firstVisibleSelectorFound = false;
+			foreach (var selector in new [] { mDaysSelector, mHoursSelector, mMinutesSelector, mSecondsSelector })
+			{
+				selector.BorderThickness = new Thickness(1, 0, 0, 0);
+				if (!firstVisibleSelectorFound && selector.Visibility == Visibility.Visible)
+				{
+					selector.BorderThickness = new Thickness(0);
+					firstVisibleSelectorFound = true;
+				}
 			}
 
 			// Determine the set of day, hour and minute values to show.

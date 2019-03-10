@@ -1,4 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:IDeliverable.Controls.Uwp.TimeSpanPicker" xmlns:ss="using:IDeliverable.Controls.Uwp.ScrollSelector">
+	<SolidColorBrush x:Key="SelectorSeparatorColor" Color="{ThemeResource SystemChromeMediumColor}"/>
 	<Style TargetType="local:TimeSpanEditor">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="False" />
@@ -13,10 +14,10 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" />
-							<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" />
-							<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" />
-							<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" />
+							<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" BorderBrush="{TemplateBinding BorderBrush}" />
+							<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" BorderBrush="{ThemeResource SelectorSeparatorColor}" />
+							<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" BorderBrush="{ThemeResource SelectorSeparatorColor}" />
+							<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" BorderBrush="{ThemeResource SelectorSeparatorColor}" />
 						</Grid>
 					</Border>
 				</ControlTemplate>
