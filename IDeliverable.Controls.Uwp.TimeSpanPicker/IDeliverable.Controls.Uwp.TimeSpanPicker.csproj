@@ -125,6 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeIncrement.cs" />
     <Compile Include="TimePrecision.cs" />
+    <Compile Include="TimeSpanChangedEventArgs.cs" />
     <Compile Include="TimeSpanEditor.cs" />
     <Compile Include="TimeSpanPicker.cs" />
     <Compile Include="TimeSpanPickerFlyout.cs" />
