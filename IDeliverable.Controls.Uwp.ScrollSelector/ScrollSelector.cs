@@ -52,6 +52,7 @@ namespace IDeliverable.Controls.Uwp.ScrollSelector
         public ScrollSelector()
         {
             DefaultStyleKey = typeof(ScrollSelector);
+			ItemContainerStyleSelector = new ScrollSelectorItemContainerStyleSelector(this);
 
             SelectionChanged += ScrollSelector_SelectionChanged;    
             SizeChanged += ScrollSelector_SizeChanged;

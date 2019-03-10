@@ -8,6 +8,6 @@ namespace IDeliverable.Controls.Uwp.TestHost
 {
     public class SampleData
     {
-        public IEnumerable<int> Range30 => Enumerable.Range(0, 30);
+        public static IEnumerable<int> Range30 => Enumerable.Range(0, 30);
     }
 }

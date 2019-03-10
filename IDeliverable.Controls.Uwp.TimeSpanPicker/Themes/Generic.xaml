@@ -12,25 +12,11 @@
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-						<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" ItemContainerStyle="{StaticResource TimeSpanEditorSelectorItemContainerStyle}"/>
-						<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" ItemContainerStyle="{StaticResource TimeSpanEditorSelectorItemContainerStyle}"/>
-						<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" ItemContainerStyle="{StaticResource TimeSpanEditorSelectorItemContainerStyle}"/>
-						<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" ItemContainerStyle="{StaticResource TimeSpanEditorSelectorItemContainerStyle}"/>
+						<ss:ScrollSelector x:Name="DaysSelector" Header="{TemplateBinding DaysLabel}" />
+						<ss:ScrollSelector x:Name="HoursSelector" Grid.Column="1" Header="{TemplateBinding HoursLabel}" />
+						<ss:ScrollSelector x:Name="MinutesSelector" Grid.Column="2" Header="{TemplateBinding MinutesLabel}" />
+						<ss:ScrollSelector x:Name="SecondsSelector" Grid.Column="3" Header="{TemplateBinding SecondsLabel}" />
 					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-	<Style x:Key="TimeSpanEditorSelectorItemContainerStyle" TargetType="ListViewItem">
-		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="UseSystemFocusVisuals" Value="False" />
-		<Setter Property="MinWidth" Value="0"/>
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="ListViewItem">
-					<!-- This is to remove highlight visual for the selected item (our selection rectangle does that instead). SelectedBackground, SelectedPointerOverBackground, and SelectedPressedBackground are overridden to their non-selected equivalents. -->
-					<ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}" SelectionCheckMarkVisualEnabled="True" CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedBackground="Transparent" SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" SelectedPressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

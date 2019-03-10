@@ -67,6 +67,7 @@
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
 			<Custom:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="200" Height="400" Grid.RowSpan="2"/>
+			<ListView HorizontalAlignment="Left" Height="100" Margin="435,276,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{x:Bind local:SampleData.Range30}" BorderBrush="{ThemeResource SystemControlDisabledAccentBrush}" BorderThickness="1,1,1,1"/>
 		</Grid>
 	</SplitView>
 </Page>
