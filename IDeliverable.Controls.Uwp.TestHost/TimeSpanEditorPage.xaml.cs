@@ -84,6 +84,11 @@ namespace IDeliverable.Controls.Uwp.TestHost
 			Editor.SecondsLabel = SecondsLabelTextBox.Text;
 		}
 
+		private void IsEnabledCheckBox_Click(object sender, RoutedEventArgs e)
+		{
+			Editor.IsEnabled = IsEnabledCheckBox.IsChecked ?? false;
+		}
+
 		private void ParseTimeSpanEntry(TextBox textBox, TimeSpan currentValue, Action<TimeSpan> setResultAction)
 		{
 			if (TimeSpan.TryParse(textBox.Text, out var newValue))
