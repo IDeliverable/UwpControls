@@ -7,12 +7,9 @@ The following controls are currently hosted in this repository:
 - [ArrayPanel](docs/ArrayPanel.md)
 - [ScrollSelector](docs/ScrollSelector.md)
 - [TimeSpanEditor](docs/TimeSpanEditor.md)
+- [TimeSpanPicker](docs/TimeSpanPicker.md)
 
 For details, please see the documentation page for each control.
-
-## Roadmap
-
-We are currently working on adding a `TimeSpanPicker` control which has the same functionality as `TimeSpanEditor` but implemented as a picker control with a flyout, much like the navite `DateTimePicker` control.
 
 ## Features
 
