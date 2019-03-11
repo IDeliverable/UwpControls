@@ -1,4 +1,4 @@
-This repository contains a set of useful controls for the Universal Windows Platform (UWP).
+This repository contains a set of useful controls for the Universal Windows Platform (UWP) written in C#.
 
 ## Controls
 
@@ -31,6 +31,11 @@ For now you need to use the controls as source code. You have a few options:
 
 - Use git submodules/subtree to incorporate this repository into your own
 - Copy/paste parts or all of the code in this repository into your own solution
+
+## SDK compatibility
+
+Target SDK version: Windows 10 1809 build 17764
+Minimum SDK version: Windows 10 1803 build 17134
 
 ## Contributions
 
