@@ -15,7 +15,7 @@ To select an item, the user can use the following methods:
 
 The following animation illustrates the `ScrollSelector` control's behavior:
 
-![ScrollSelector animation](ScrollSelector1.gif)
+![ScrollSelector animation](ScrollSelector3.gif)
 
 The behavior is very similar to how most picker controls work in iOS, and almost identical to how the flyout of the built-in `TimePicker` control works in UWP.
 
