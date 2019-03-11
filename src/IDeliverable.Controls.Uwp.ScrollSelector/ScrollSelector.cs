@@ -9,16 +9,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
-// Foreground brush should affect rendered ListViewItems - but how?
-
-// When clicking a non-selected item, the resulting ScrollToSelectedItem() works as
-// expected, but when touching the same item, there is no scroll, instead the
-// ScrollViewer just jumps to the item. Probably this is because the touch engages
-// the DirectManipulation mechanism of the ScrollViewer and this somehow interferes
-// with the programmatically invoked ChangeView(). A possible workaround might be to
-// somehow catch the touch events on the ListViewItem elements and not let them through
-// to the underlying ScrollViewer.
-
 namespace IDeliverable.Controls.Uwp.ScrollSelector
 {
 	[TemplateVisualState(Name = mPointerUiHiddenStateName, GroupName = mPointerUiStatesGroupName)]
@@ -98,9 +88,6 @@ namespace IDeliverable.Controls.Uwp.ScrollSelector
 			mDownButton.Click += (sender, e) => SelectNextItem();
 
 			RegisterPropertyChangedCallback(HeaderProperty, (sender, e) => ConfigureHeaderVisibility());
-
-			//var scrollPadding = Height / 2;
-			//mPresenter.Padding = new Thickness(0, scrollPadding, 0, scrollPadding);
 
 			// Unless we are in the designer where everything should be visible, always
 			// start the control assuming pointer UI should not be visible; if mouse or
@@ -217,9 +204,9 @@ namespace IDeliverable.Controls.Uwp.ScrollSelector
 
 			if (SelectedItem != null)
 			{
-				var itemContainer = ContainerFromItem(SelectedItem) as ListViewItem;
-				if (itemContainer == null)
+				if (!(ContainerFromItem(SelectedItem) is ListViewItem itemContainer))
 					return;
+
 				var offsetToTop = itemContainer.TransformToVisual(mPresenter).TransformPoint(new Point(0, 0)).Y;
 				var offsetToCenter = offsetToTop + itemContainer.ActualHeight / 2;
 				var scrollViewerCenter = mItemsScrollViewer.ActualHeight / 2;
@@ -241,9 +228,9 @@ namespace IDeliverable.Controls.Uwp.ScrollSelector
 
 			foreach (var item in Items)
 			{
-				var itemContainer = ContainerFromItem(item) as ListViewItem;
-				if (itemContainer == null)
+				if (!(ContainerFromItem(item) is ListViewItem itemContainer))
 					continue;
+
 				var offsetToTop = itemContainer.TransformToVisual(mItemsScrollViewer).TransformPoint(new Point(0, 0)).Y;
 				var offsetToBottom = offsetToTop + itemContainer.ActualHeight;
 				var scrollViewerCenter = mItemsScrollViewer.ActualHeight / 2;

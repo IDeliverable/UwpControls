@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IDeliverable.Controls.Uwp.TestHost")]
+[assembly: AssemblyTitle("IDeliverable.Controls.TestHost")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IDeliverable.Controls.Uwp.TestHost")]
+[assembly: AssemblyProduct("IDeliverable.Controls.TestHost")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

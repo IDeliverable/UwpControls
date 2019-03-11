@@ -7,8 +7,8 @@
     <ProjectGuid>{1772A0C3-2A15-4AB2-B69C-5849FFCA2AC9}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IDeliverable.Controls.Uwp.TestHost</RootNamespace>
-    <AssemblyName>IDeliverable.Controls.Uwp.TestHost</AssemblyName>
+    <RootNamespace>IDeliverable.Controls.TestHost</RootNamespace>
+    <AssemblyName>IDeliverable.Controls.TestHost</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>

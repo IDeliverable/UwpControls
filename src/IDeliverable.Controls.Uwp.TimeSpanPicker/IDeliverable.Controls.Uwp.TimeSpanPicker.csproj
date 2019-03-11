@@ -120,15 +120,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ArrayPanel.cs" />
     <Compile Include="ITimeSpanEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeIncrement.cs" />
     <Compile Include="TimePrecision.cs" />
     <Compile Include="TimeSpanChangedEventArgs.cs" />
     <Compile Include="TimeSpanEditor.cs" />
-    <Compile Include="TimeSpanPicker.cs" />
-    <Compile Include="TimeSpanPickerFlyout.cs" />
     <EmbeddedResource Include="Properties\IDeliverable.Controls.Uwp.TimeSpanPicker.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +143,10 @@
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IDeliverable.Controls.Uwp.Containers\IDeliverable.Controls.Uwp.Containers.csproj">
+      <Project>{47a06c5a-b77d-4b29-af11-34320e2ef860}</Project>
+      <Name>IDeliverable.Controls.Uwp.Containers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IDeliverable.Controls.Uwp.ScrollSelector\IDeliverable.Controls.Uwp.ScrollSelector.csproj">
       <Project>{cbf55620-c9e0-4f97-84d1-beb5f509b054}</Project>
       <Name>IDeliverable.Controls.Uwp.ScrollSelector</Name>
