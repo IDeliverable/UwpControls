@@ -34,8 +34,8 @@ For now you need to use the controls as source code. You have a few options:
 
 ## SDK compatibility
 
-Target SDK version: Windows 10 1809 build 17764
-Minimum SDK version: Windows 10 1803 build 17134
+- Target SDK version: Windows 10 1809 build 17764
+- Minimum SDK version: Windows 10 1803 build 17134
 
 ## Contributions
 
