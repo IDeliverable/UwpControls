@@ -2,6 +2,8 @@
 
 The `ScrollSelector` control is an item selector control that is very similar to a `ListView`, but the currently selected item in the list is both chosen and visualized using the list view's current *scroll position* instead of by pressing/highlighting the item itself.
 
+The `ScrollSelector` control resides in the `IDeliverable.Controls.Uwp.ScrollSelector` package.
+
 ## Behavior/interaction
 
 The `ScrollSelector` displays a selection highlight in the center of the control. The item that is currently positioned underneath that selection highlight is the currently selected item.

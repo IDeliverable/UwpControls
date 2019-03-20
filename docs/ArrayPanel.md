@@ -2,6 +2,10 @@
 
 The `ArrayPanel` control is a simple container that arranges child elements into a single line that can be oriented horizontally or vertically, where the full available space along the orientation axis is distributed equally among the child elements, with an optional spacing between them.
 
+The `ArrayPanel` control resides in the `IDeliverable.Controls.Uwp.Containers` package.
+
+## Behavior
+
 The layout behavior is similar to a `StackPanel` in that child elements are laid out in one line along the orientation axis, but instead of stacking child elements from one end to the other, `ArrayPanel` distributes child elements evenly across the orientation axis.
 
 The following diagram illustrates the layout:
@@ -17,4 +21,6 @@ This is useful in scenarios where you want child elements sized equally, but the
 
 The `Spacing` property can be very useful to add spacing. It removes the need to configure margins/paddings on all child elements except the first/last elements to achieve the result of having a certain amount of space only *between* child elements.
 
-The `ArrayPanel` control resides in the `IDeliverable.Controls.Uwp.Containers` package.
+## Border and padding
+
+`ArrayPanel` does not feature built-in border and padding support. To achieve a border or padding around the items laid out in the `ArrayPanel`, instead simply wrap the `ArrayPanel` control inside a `Border` element and configure the border and padding related properties on the `Border` element.
