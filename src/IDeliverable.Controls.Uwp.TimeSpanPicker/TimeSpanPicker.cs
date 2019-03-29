@@ -150,15 +150,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		{
 			DefaultStyleKey = typeof(TimeSpanPicker);
 
-			mFlyout = new TimeSpanPickerFlyout()
-			{
-				Picker = this,
-				Height = mOptimalFlyoutHeight,
-				AreOpenCloseAnimationsEnabled = false
-			};
-
-			mFlyout.Closing += Flyout_Closing;
-
 			mFlyoutOptions = new FlyoutShowOptions()
 			{
 				ShowMode = FlyoutShowMode.Standard,
@@ -167,7 +158,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			};
 		}
 
-		private readonly TimeSpanPickerFlyout mFlyout;
 		private readonly FlyoutShowOptions mFlyoutOptions;
 		private FrameworkElement mFlyoutAnchor;
 		private Button mFlyoutButton;
@@ -284,16 +274,30 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		private void FlyoutButton_Click(object sender, RoutedEventArgs e)
 		{
-			mFlyout.Width = ActualWidth;
-			mFlyout.ShowAt(mFlyoutAnchor, mFlyoutOptions);
+			var flyout = new TimeSpanPickerFlyout(this)
+			{
+				Height = mOptimalFlyoutHeight,
+				Width = ActualWidth,
+				AreOpenCloseAnimationsEnabled = false
+			};
+
+			flyout.ValueSelected += Flyout_ValueSelected;
+			flyout.Closing += Flyout_Closing;
+
+			flyout.ShowAt(mFlyoutAnchor, mFlyoutOptions);
+		}
+
+		private void Flyout_ValueSelected(object sender, TimeSpanChangedEventArgs e)
+		{
+			Value = e.NewValue;
 		}
 
 		private void Flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
 		{
 			if (sender is TimeSpanPickerFlyout timeSpanPickerFlyout)
 			{
-				if (timeSpanPickerFlyout.Editor != null)
-					Value = timeSpanPickerFlyout.Editor.Value;
+				timeSpanPickerFlyout.ValueSelected -= Flyout_ValueSelected;
+				timeSpanPickerFlyout.Closing -= Flyout_Closing;
 			}
 		}
 

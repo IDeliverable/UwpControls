@@ -1,34 +1,55 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
 namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
 	public class TimeSpanPickerFlyout : FlyoutBase
 	{
-		public TimeSpanPicker Picker { get; set; }
+		public TimeSpanPickerFlyout(TimeSpanPicker picker)
+		{
+			mPicker = picker;
+			mEditor = new TimeSpanEditor();
+
+			Opening += Flyout_Opening;
+			Closing += Flyout_Closing;
+		}
+
+		private void Flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+		{
+			var oldValue = SelectedValue;
+			SelectedValue = mEditor.Value;
+			ValueSelected?.Invoke(this, new TimeSpanChangedEventArgs(oldValue, mEditor.Value));
+		}
+
+		private void Flyout_Opening(object sender, object e)
+		{
+			mEditor.MinWidth = Width;
+			mEditor.MaxHeight = Height;
+			mEditor.Precision = mPicker.Precision;
+			mEditor.MinValue = mPicker.MinValue;
+			mEditor.MaxValue = mPicker.MaxValue;
+			mEditor.Value = mPicker.Value;
+			mEditor.MinuteIncrement = mPicker.MinuteIncrement;
+			mEditor.SecondIncrement = mPicker.SecondIncrement;
+			mEditor.DaysLabel = mPicker.DaysLabel;
+			mEditor.HoursLabel = mPicker.HoursLabel;
+			mEditor.MinutesLabel = mPicker.MinutesLabel;
+			mEditor.SecondsLabel = mPicker.SecondsLabel;
+		}
+
+		private readonly TimeSpanPicker mPicker;
+		private readonly TimeSpanEditor mEditor;
+
+		public TimeSpan SelectedValue { get; private set; }
 		public double Width { get; set; }
 		public double Height { get; set; }
-		public TimeSpanEditor Editor { get; private set; }
+
+		public event EventHandler<TimeSpanChangedEventArgs> ValueSelected;
 
 		protected override Control CreatePresenter()
 		{
-			Editor = new TimeSpanEditor()
-			{
-				MinWidth = Width,
-				MaxHeight = Height,
-				Precision = Picker.Precision,
-				MinValue = Picker.MinValue,
-				MaxValue = Picker.MaxValue,
-				Value = Picker.Value,
-				MinuteIncrement = Picker.MinuteIncrement,
-				SecondIncrement = Picker.SecondIncrement,
-				DaysLabel = Picker.DaysLabel,
-				HoursLabel = Picker.HoursLabel,
-				MinutesLabel = Picker.MinutesLabel,
-				SecondsLabel = Picker.SecondsLabel
-			};
-			
-			return Editor;
+			return mEditor;
 		}
 	}
 }
