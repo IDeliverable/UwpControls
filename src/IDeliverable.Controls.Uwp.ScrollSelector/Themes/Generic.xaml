@@ -88,7 +88,7 @@
 								<Button.Resources>
 									<ResourceDictionary>
 										<ResourceDictionary.ThemeDictionaries>
-											<!-- Would be nice if these resources could be reused across both buttons instead or duplicated. -->
+											<!-- Would be nice if these resources could be reused across both buttons instead of duplicated. -->
 											<ResourceDictionary x:Key="Light">
 												<SolidColorBrush x:Key="ButtonBackground" Color="{ThemeResource SystemChromeMediumColor}" />
 												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemChromeHighColor}" />
@@ -106,7 +106,7 @@
 								<Button.Resources>
 									<ResourceDictionary>
 										<ResourceDictionary.ThemeDictionaries>
-											<!-- Would be nice if these resources could be reused across both buttons instead or duplicated. -->
+											<!-- Would be nice if these resources could be reused across both buttons instead of duplicated. -->
 											<ResourceDictionary x:Key="Light">
 												<SolidColorBrush x:Key="ButtonBackground" Color="{ThemeResource SystemChromeMediumColor}" />
 												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemChromeHighColor}" />
