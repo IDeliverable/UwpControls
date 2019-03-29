@@ -80,10 +80,10 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
-							<ContentPresenter x:Name="HeaderContentPresenter" x:DeferLoadStrategy="Lazy" Visibility="Collapsed" Background="{ThemeResource ScrollSelectorHeaderBackgroundBrush}" Foreground="{ThemeResource TextControlHeaderForeground}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="2" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" FontWeight="Normal" />
-							<ScrollViewer x:Name="ItemsScrollViewer" Grid.Row="1" VerticalSnapPointsAlignment="Center" VerticalSnapPointsType="Mandatory" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Hidden">
+							<ScrollViewer x:Name="ItemsScrollViewer" Grid.RowSpan="2" VerticalSnapPointsAlignment="Center" VerticalSnapPointsType="Mandatory" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Hidden">
 								<ItemsPresenter x:Name="Presenter" />
 							</ScrollViewer>
+							<ContentPresenter x:Name="HeaderContentPresenter" x:DeferLoadStrategy="Lazy" Visibility="Collapsed" Background="{ThemeResource ScrollSelectorHeaderBackgroundBrush}" Foreground="{ThemeResource TextControlHeaderForeground}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="2" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" FontWeight="Normal" />
 							<Button x:Name="UpButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="8,2" IsTabStop="False">
 								<Button.Resources>
 									<ResourceDictionary>
@@ -120,7 +120,7 @@
 								</Button.Resources>
 								<FontIcon Glyph="&#xF107;" FontFamily="ms-appx:///IDeliverable.Controls.Uwp.ScrollSelector/Assets/FontAwesome.ttf#FontAwesome" Foreground="{TemplateBinding Foreground}" />
 							</Button>
-							<Rectangle x:Name="SelectionHighlight" Grid.Row="1" Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}" Height="30" VerticalAlignment="Center" IsHitTestVisible="False" />
+							<Rectangle x:Name="SelectionHighlight" Grid.RowSpan="2" Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}" Height="30" VerticalAlignment="Center" IsHitTestVisible="False" />
 						</Grid>
 					</Border>
 				</ControlTemplate>
