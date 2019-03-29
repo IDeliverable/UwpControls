@@ -142,9 +142,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Readme.md" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\IDeliverable.Controls.Uwp.Containers\IDeliverable.Controls.Uwp.Containers.csproj">
       <Project>{47a06c5a-b77d-4b29-af11-34320e2ef860}</Project>
       <Name>IDeliverable.Controls.Uwp.Containers</Name>
