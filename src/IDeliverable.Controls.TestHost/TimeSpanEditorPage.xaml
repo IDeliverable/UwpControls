@@ -7,8 +7,7 @@
 	xmlns:tsp="using:IDeliverable.Controls.Uwp.TimeSpanPicker"
 	xmlns:ss="using:IDeliverable.Controls.Uwp.ScrollSelector"
 	x:Class="IDeliverable.Controls.Uwp.TestHost.TimeSpanEditorPage"
-	mc:Ignorable="d"
-	Loaded="Page_Loaded">
+	mc:Ignorable="d">
 
 	<Page.Background>
 		<ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush"/>
@@ -20,16 +19,16 @@
 				<StackPanel Padding="8,8,8,8">
 
 					<TextBlock Margin="0,0,0,2" Text="Precision:" TextWrapping="Wrap"/>
-					<ComboBox x:Name="PrecisionComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" SelectionChanged="PrecisionComboBox_SelectionChanged"/>
+					<ComboBox x:Name="PrecisionComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.TimePrecisionEnumItems}" SelectedValue="{x:Bind Path=ViewModel.PrecisionInt32, Mode=TwoWay}" SelectedValuePath="ValueInt32" />
 
 					<TextBlock Margin="0,0,0,2" Text="Min:" TextWrapping="Wrap"/>
-					<TextBox x:Name="MinValueTextBox" Margin="0,0,0,8" Text="" LostFocus="MinValueTextBox_LostFocus"/>
+					<TextBox x:Name="MinValueTextBox" Margin="0,0,0,8" Text="{x:Bind Path=ViewModel.MinValue, Mode=TwoWay}" />
 
 					<TextBlock Margin="0,0,0,2" Text="Max:" TextWrapping="Wrap"/>
-					<TextBox x:Name="MaxValueTextBox" Margin="0,0,0,8" Text="" LostFocus="MaxValueTextBox_LostFocus"/>
+					<TextBox x:Name="MaxValueTextBox" Margin="0,0,0,8" Text="{x:Bind Path=ViewModel.MaxValue, Mode=TwoWay}" />
 
 					<TextBlock Margin="0,0,0,2" Text="Value:" TextWrapping="Wrap"/>
-					<TextBox x:Name="ValueTextBox" Margin="0,0,0,8" Text="" LostFocus="ValueTextBox_LostFocus"/>
+					<TextBox x:Name="ValueTextBox" Margin="0,0,0,8" Text="{x:Bind Path=ViewModel.Value, Mode=TwoWay}" />
 
 					<TextBlock Margin="0,0,0,2" Text="Increments:" TextWrapping="Wrap"/>
 					<Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
@@ -43,8 +42,8 @@
 						</Grid.RowDefinitions>
 						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="0" Text="Minutes" TextWrapping="Wrap" VerticalAlignment="Top"/>
 						<TextBlock Margin="0,0,0,2" HorizontalAlignment="Left" Grid.Column="1" Text="Seconds" TextWrapping="Wrap" VerticalAlignment="Top"/>
-						<ComboBox Grid.Row="1" Grid.Column="0" x:Name="MinuteIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,4,8" VerticalAlignment="Stretch" SelectionChanged="MinuteIncrementComboBox_SelectionChanged"/>
-						<ComboBox Grid.Row="1" Grid.Column="1" x:Name="SecondIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" SelectionChanged="SecondIncrementComboBox_SelectionChanged"/>
+						<ComboBox Grid.Row="1" Grid.Column="0" x:Name="MinuteIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,4,8" VerticalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.TimeIncrementEnumItems}" SelectedValue="{x:Bind Path=ViewModel.MinuteIncrementInt32, Mode=TwoWay}" SelectedValuePath="ValueInt32"/>
+						<ComboBox Grid.Row="1" Grid.Column="1" x:Name="SecondIncrementComboBox" HorizontalAlignment="Stretch" Margin="0,0,0,8" VerticalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.TimeIncrementEnumItems}" SelectedValue="{x:Bind Path=ViewModel.SecondIncrementInt32, Mode=TwoWay}" SelectedValuePath="ValueInt32"/>
 					</Grid>
 
 					<TextBlock Margin="0,0,0,2" Text="Labels:" TextWrapping="Wrap"/>
@@ -63,13 +62,13 @@
 						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="1" Text="Hours" TextWrapping="Wrap" VerticalAlignment="Top"/>
 						<TextBlock Margin="0,0,4,2" HorizontalAlignment="Left" Grid.Column="2" Text="Minutes" TextWrapping="Wrap" VerticalAlignment="Top"/>
 						<TextBlock Margin="0,0,0,2" HorizontalAlignment="Left" Grid.Column="3" Text="Seconds" TextWrapping="Wrap" VerticalAlignment="Top"/>
-						<TextBox Grid.Row="1" Grid.Column="0" x:Name="DaysLabelTextBox" Margin="0,0,4,8" LostFocus="DaysLabelTextBox_LostFocus"/>
-						<TextBox Grid.Row="1" Grid.Column="1" x:Name="HoursLabelTextBox" Margin="0,0,4,8" LostFocus="HoursLabelTextBox_LostFocus"/>
-						<TextBox Grid.Row="1" Grid.Column="2" x:Name="MinutesLabelTextBox" Margin="0,0,4,8" LostFocus="MinutesLabelTextBox_LostFocus"/>
-						<TextBox Grid.Row="1" Grid.Column="3" x:Name="SecondsLabelTextBox" Margin="0,0,0,8" LostFocus="SecondsLabelTextBox_LostFocus"/>
+						<TextBox Grid.Row="1" Grid.Column="0" x:Name="DaysLabelTextBox" Margin="0,0,4,8" Text="{x:Bind Path=ViewModel.DaysLabel, Mode=TwoWay}" />
+						<TextBox Grid.Row="1" Grid.Column="1" x:Name="HoursLabelTextBox" Margin="0,0,4,8" Text="{x:Bind Path=ViewModel.HoursLabel, Mode=TwoWay}" />
+						<TextBox Grid.Row="1" Grid.Column="2" x:Name="MinutesLabelTextBox" Margin="0,0,4,8" Text="{x:Bind Path=ViewModel.MinutesLabel, Mode=TwoWay}" />
+						<TextBox Grid.Row="1" Grid.Column="3" x:Name="SecondsLabelTextBox" Margin="0,0,0,8" Text="{x:Bind Path=ViewModel.SecondsLabel, Mode=TwoWay}" />
 					</Grid>
 
-					<CheckBox x:Name="IsEnabledCheckBox" Margin="0,0,0,8" Content="Enabled" Click="IsEnabledCheckBox_Click" />
+					<CheckBox x:Name="IsEnabledCheckBox" Margin="0,0,0,8" Content="Enabled" IsChecked="{x:Bind Path=ViewModel.IsEnabled, Mode=TwoWay}" />
 
 				</StackPanel>
 			</Grid>
@@ -78,7 +77,10 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<tsp:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Width="200" Height="400"/>
+			<tsp:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Width="240" Height="400" Precision="{x:Bind Path=ViewModel.Precision, Mode=TwoWay}" MinValue="{x:Bind Path=ViewModel.MinValue, Mode=TwoWay}" MaxValue="{x:Bind Path=ViewModel.MaxValue, Mode=TwoWay}" Value="{x:Bind Path=ViewModel.Value, Mode=TwoWay}" MinuteIncrement="{x:Bind Path=ViewModel.MinuteIncrement, Mode=OneWay}" SecondIncrement="{x:Bind Path=ViewModel.SecondIncrement, Mode=OneWay}" DaysLabel="{x:Bind Path=ViewModel.DaysLabel, Mode=OneWay}" HoursLabel="{x:Bind Path=ViewModel.HoursLabel, Mode=OneWay}" MinutesLabel="{x:Bind Path=ViewModel.MinutesLabel, Mode=OneWay}" SecondsLabel="{x:Bind Path=ViewModel.SecondsLabel, Mode=OneWay}" IsEnabled="{x:Bind Path=ViewModel.IsEnabled, Mode=OneWay}" />
+			<tsp:TimeSpanPicker x:Name="Picker" HorizontalAlignment="Left"  Margin="288,214,0,0" VerticalAlignment="Top" Precision="{x:Bind Path=ViewModel.Precision, Mode=TwoWay}" MinValue="{x:Bind Path=ViewModel.MinValue, Mode=TwoWay}" MaxValue="{x:Bind Path=ViewModel.MaxValue, Mode=TwoWay}" Value="{x:Bind Path=ViewModel.Value, Mode=TwoWay}" MinuteIncrement="{x:Bind Path=ViewModel.MinuteIncrement, Mode=OneWay}" SecondIncrement="{x:Bind Path=ViewModel.SecondIncrement, Mode=OneWay}" DaysLabel="{x:Bind Path=ViewModel.DaysLabel, Mode=OneWay}" HoursLabel="{x:Bind Path=ViewModel.HoursLabel, Mode=OneWay}" MinutesLabel="{x:Bind Path=ViewModel.MinutesLabel, Mode=OneWay}" SecondsLabel="{x:Bind Path=ViewModel.SecondsLabel, Mode=OneWay}" IsEnabled="{x:Bind Path=ViewModel.IsEnabled, Mode=OneWay}" />
+			<!--<DatePicker HorizontalAlignment="Left" Margin="554,214,0,0" VerticalAlignment="Top"/>
+			<TimePicker HorizontalAlignment="Left" Margin="875,214,0,0" VerticalAlignment="Top"/>-->
 		</Grid>
 	</SplitView>
 </Page>

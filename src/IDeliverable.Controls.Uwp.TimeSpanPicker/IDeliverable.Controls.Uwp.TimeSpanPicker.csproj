@@ -126,6 +126,8 @@
     <Compile Include="TimePrecision.cs" />
     <Compile Include="TimeSpanChangedEventArgs.cs" />
     <Compile Include="TimeSpanEditor.cs" />
+    <Compile Include="TimeSpanPicker.cs" />
+    <Compile Include="TimeSpanPickerFlyout.cs" />
     <EmbeddedResource Include="Properties\IDeliverable.Controls.Uwp.TimeSpanPicker.rd.xml" />
   </ItemGroup>
   <ItemGroup>
