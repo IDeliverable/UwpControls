@@ -128,29 +128,23 @@
 						<!--<ContentPresenter x:Name="HeaderContentPresenter" x:DeferLoadStrategy="Lazy" Visibility="Collapsed" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" Margin="0,0,0,8" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" AutomationProperties.AccessibilityView="Raw" />-->
 						<Rectangle x:Name="FlyoutAnchor" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
 						<Button x:Name="FlyoutButton" Style="{StaticResource TimeSpanPickerFlyoutButtonStyle}" Foreground="{TemplateBinding Foreground}" Background="{TemplateBinding Background}" IsEnabled="{TemplateBinding IsEnabled}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
-							<Grid x:Name="FlyoutButtonContentGrid">
+							<Grid x:Name="LabelGrid">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" x:Name="FirstTextBlockColumn" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" x:Name="SecondTextBlockColumn" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" x:Name="ThirdTextBlockColumn" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" x:Name="FourthTextBlockColumn" />
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
-								<Border x:Name="FirstPickerHost" Grid.Column="0">
+								<Border x:Name="DaysBorder" BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
 									<TextBlock x:Name="DaysTextBlock" TextAlignment="Center" VerticalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" AutomationProperties.AccessibilityView="Raw"/>
 								</Border>
-								<Rectangle x:Name="FirstColumnDivider" Fill="{ThemeResource SystemControlForegroundBaseLowBrush}" HorizontalAlignment="Center" Width="2" Grid.Column="1" />
-								<Border x:Name="SecondPickerHost" Grid.Column="2">
+								<Border x:Name="HoursBorder" Grid.Column="1" BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
 									<TextBlock x:Name="HoursTextBlock" TextAlignment="Center" VerticalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" AutomationProperties.AccessibilityView="Raw"/>
 								</Border>
-								<Rectangle x:Name="SecondColumnDivider" Fill="{ThemeResource SystemControlForegroundBaseLowBrush}" HorizontalAlignment="Center" Width="2" Grid.Column="3" />
-								<Border x:Name="ThirdPickerHost" Grid.Column="4">
+								<Border x:Name="MinutesBorder" Grid.Column="2" BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
 									<TextBlock x:Name="MinutesTextBlock" TextAlignment="Center" VerticalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" AutomationProperties.AccessibilityView="Raw"/>
 								</Border>
-								<Rectangle x:Name="ThirdColumnDivider" Fill="{ThemeResource SystemControlForegroundBaseLowBrush}" HorizontalAlignment="Center" Width="2" Grid.Column="5" />
-								<Border x:Name="FourthPickerHost" Grid.Column="6">
+								<Border x:Name="SecondsBorder" Grid.Column="3" BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
 									<TextBlock x:Name="SecondsTextBlock" TextAlignment="Center" VerticalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" AutomationProperties.AccessibilityView="Raw"/>
 								</Border>
 							</Grid>

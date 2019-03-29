@@ -8,6 +8,21 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
 	public class TimeSpanPicker : Control, ITimeSpanEditor
 	{
+		public static DependencyProperty PrecisionProperty { get; } =
+			DependencyProperty.Register(
+				nameof(Precision),
+				typeof(TimePrecision),
+				typeof(TimeSpanPicker),
+				new PropertyMetadata(
+					TimePrecision.Seconds,
+					(d, e) =>
+					{
+						var editor = (TimeSpanPicker)d;
+						var newValue = (TimePrecision)e.NewValue;
+						editor.AdjustMaxValue(newValue);
+						editor.ConfigureLabelVisibility();
+					}));
+
 		public static DependencyProperty MinValueProperty { get; } =
 			DependencyProperty.Register(
 				nameof(MinValue),
@@ -37,6 +52,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 						editor.AdjustMinValue(newValue);
 						editor.AdjustPrecision(newValue);
 						editor.AdjustValue();
+						editor.ConfigureLabelVisibility();
 					}));
 
 		public static DependencyProperty ValueProperty { get; } =
@@ -51,7 +67,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 						var editor = (TimeSpanPicker)d;
 						var newValue = (TimeSpan)e.NewValue;
 						editor.AdjustValue();
-						editor.ConfigureLabels();
+						editor.UpdateLabels();
 					}));
 
 		public static DependencyProperty MinuteIncrementProperty { get; } =
@@ -70,64 +86,86 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				new PropertyMetadata(
 					TimeIncrement.One));
 
-		public static DependencyProperty PrecisionProperty { get; } =
-			DependencyProperty.Register(
-				nameof(Precision),
-				typeof(TimePrecision),
-				typeof(TimeSpanPicker),
-				new PropertyMetadata(
-					TimePrecision.Seconds,
-					(d, e) =>
-					{
-						var editor = (TimeSpanPicker)d;
-						var newValue = (TimePrecision)e.NewValue;
-						editor.AdjustMaxValue(newValue);
-						editor.ConfigureLabels();
-					}));
-
 		public static DependencyProperty DaysLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(DaysLabel),
 				typeof(string),
 				typeof(TimeSpanPicker),
-				new PropertyMetadata("d"));
+				new PropertyMetadata(
+					"d",
+					(d, e) =>
+					{
+						var editor = (TimeSpanPicker)d;
+						var newValue = (string)e.NewValue;
+						editor.UpdateLabels();
+					}));
 
 		public static DependencyProperty HoursLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(HoursLabel),
 				typeof(string),
 				typeof(TimeSpanPicker),
-				new PropertyMetadata("h"));
+				new PropertyMetadata(
+					"h",
+					(d, e) =>
+					{
+						var editor = (TimeSpanPicker)d;
+						var newValue = (string)e.NewValue;
+						editor.UpdateLabels();
+					}));
 
 		public static DependencyProperty MinutesLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(MinutesLabel),
 				typeof(string),
 				typeof(TimeSpanPicker),
-				new PropertyMetadata("min"));
+				new PropertyMetadata(
+					"min",
+					(d, e) =>
+					{
+						var editor = (TimeSpanPicker)d;
+						var newValue = (string)e.NewValue;
+						editor.UpdateLabels();
+					}));
 
 		public static DependencyProperty SecondsLabelProperty { get; } =
 			DependencyProperty.Register(
 				nameof(SecondsLabel),
 				typeof(string),
 				typeof(TimeSpanPicker),
-				new PropertyMetadata("s"));
+				new PropertyMetadata(
+					"s",
+					(d, e) =>
+					{
+						var editor = (TimeSpanPicker)d;
+						var newValue = (string)e.NewValue;
+						editor.UpdateLabels();
+					}));
 
 		public TimeSpanPicker()
 		{
 			DefaultStyleKey = typeof(TimeSpanPicker);
-
-			Loaded += TimeSpanPicker_Loaded;
 		}
 
 		private FrameworkElement mFlyoutAnchor;
 		private Button mFlyoutButton;
+		private Grid mLabelGrid;
+		private Border mDaysBorder;
+		private Border mHoursBorder;
+		private Border mMinutesBorder;
+		private Border mSecondsBorder;
 		private TextBlock mDaysTextBlock;
 		private TextBlock mHoursTextBlock;
 		private TextBlock mMinutesTextBlock;
 		private TextBlock mSecondsTextBlock;
 
 		private bool mTemplateIsApplied = false;
+
+		public TimePrecision Precision
+		{
+			get => (TimePrecision)GetValue(PrecisionProperty);
+			set => SetValue(PrecisionProperty, value);
+		}
 
 		public TimeSpan MinValue
 		{
@@ -149,7 +187,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				var oldValue = (TimeSpan)GetValue(ValueProperty);
 				SetValue(ValueProperty, value);
 				if (value != oldValue)
-					ValueChanged.Invoke(this, new TimeSpanChangedEventArgs(oldValue, value));
+					ValueChanged?.Invoke(this, new TimeSpanChangedEventArgs(oldValue, value));
 			}
 		}
 
@@ -165,12 +203,6 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		{
 			get => (TimeIncrement)GetValue(SecondIncrementProperty);
 			set => SetValue(SecondIncrementProperty, value);
-		}
-
-		public TimePrecision Precision
-		{
-			get => (TimePrecision)GetValue(PrecisionProperty);
-			set => SetValue(PrecisionProperty, value);
 		}
 
 		public string DaysLabel
@@ -203,6 +235,11 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 			mFlyoutAnchor = GetTemplateChild("FlyoutAnchor") as FrameworkElement;
 			mFlyoutButton = GetTemplateChild("FlyoutButton") as Button;
+			mLabelGrid = GetTemplateChild("LabelGrid") as Grid;
+			mDaysBorder = GetTemplateChild("DaysBorder") as Border;
+			mHoursBorder = GetTemplateChild("HoursBorder") as Border;
+			mMinutesBorder = GetTemplateChild("MinutesBorder") as Border;
+			mSecondsBorder = GetTemplateChild("SecondsBorder") as Border;
 			mDaysTextBlock = GetTemplateChild("DaysTextBlock") as TextBlock;
 			mHoursTextBlock = GetTemplateChild("HoursTextBlock") as TextBlock;
 			mMinutesTextBlock = GetTemplateChild("MinutesTextBlock") as TextBlock;
@@ -210,12 +247,10 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 			mTemplateIsApplied = true;
 
-			mFlyoutButton.Click += FlyoutButton_Click;
-		}
+			ConfigureLabelVisibility();
+			UpdateLabels();
 
-		private void TimeSpanPicker_Loaded(object sender, RoutedEventArgs e)
-		{
-			ConfigureLabels();
+			mFlyoutButton.Click += FlyoutButton_Click;
 		}
 
 		private void FlyoutButton_Click(object sender, RoutedEventArgs e)
@@ -237,7 +272,23 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			flyout.ShowAt(mFlyoutAnchor, options);
 		}
 
-		private void ConfigureLabels()
+		private void ConfigureLabelVisibility()
+		{
+			if (!mTemplateIsApplied)
+				return;
+
+			// Determine visibility of day, hour, minute and second components.
+
+			this.ConfigureComponents(new[]
+			{
+				(mLabelGrid.ColumnDefinitions[0], mDaysBorder),
+				(mLabelGrid.ColumnDefinitions[1], mHoursBorder),
+				(mLabelGrid.ColumnDefinitions[2], mMinutesBorder),
+				(mLabelGrid.ColumnDefinitions[3], mSecondsBorder)
+			}, (border, showBorder) => border.BorderThickness = new Thickness(showBorder ? 2 : 0, 0, 0, 0));
+		}
+
+		private void UpdateLabels()
 		{
 			if (!mTemplateIsApplied)
 				return;

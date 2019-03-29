@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -233,12 +234,12 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		protected override void OnKeyDown(KeyRoutedEventArgs e)
 		{
-			if (e.Key == Windows.System.VirtualKey.Left)
+			if (e.Key == VirtualKey.Left)
 			{
 				FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
 				e.Handled = true;
 			}
-			else if (e.Key == Windows.System.VirtualKey.Right)
+			else if (e.Key == VirtualKey.Right)
 			{
 				FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
 				e.Handled = true;
@@ -250,63 +251,15 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			if (!mTemplateIsApplied)
 				return;
 
-			// Determine visibility of day, hour, minute and second selectors, respectively.
+			// Determine visibility of day, hour, minute and second components.
 
-			if (MaxValue >= TimeSpan.FromDays(1))
+			this.ConfigureComponents(new[]
 			{
-				mSelectorGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-				mDaysSelector.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				mSelectorGrid.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Star);
-				mDaysSelector.Visibility = Visibility.Collapsed;
-			}
-
-			if (MaxValue >= TimeSpan.FromHours(1) && Precision >= TimePrecision.Hours)
-			{
-				mSelectorGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-				mHoursSelector.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				mSelectorGrid.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
-				mHoursSelector.Visibility = Visibility.Collapsed;
-			}
-
-			if (MaxValue >= TimeSpan.FromMinutes(1) && Precision >= TimePrecision.Minutes)
-			{
-				mSelectorGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
-				mMinutesSelector.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				mSelectorGrid.ColumnDefinitions[2].Width = new GridLength(0, GridUnitType.Star);
-				mMinutesSelector.Visibility = Visibility.Collapsed;
-			}
-
-			if (Precision >= TimePrecision.Seconds)
-			{
-				mSelectorGrid.ColumnDefinitions[3].Width = new GridLength(1, GridUnitType.Star);
-				mSecondsSelector.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				mSelectorGrid.ColumnDefinitions[3].Width = new GridLength(0, GridUnitType.Star);
-				mSecondsSelector.Visibility = Visibility.Collapsed;
-			}
-
-			// Show a left border on all selectors except the left-most visible one.
-			var firstVisibleSelectorFound = false;
-			foreach (var selector in new [] { mDaysSelector, mHoursSelector, mMinutesSelector, mSecondsSelector })
-			{
-				selector.BorderThickness = new Thickness(1, 0, 0, 0);
-				if (!firstVisibleSelectorFound && selector.Visibility == Visibility.Visible)
-				{
-					selector.BorderThickness = new Thickness(0);
-					firstVisibleSelectorFound = true;
-				}
-			}
+				(mSelectorGrid.ColumnDefinitions[0], mDaysSelector),
+				(mSelectorGrid.ColumnDefinitions[1], mHoursSelector),
+				(mSelectorGrid.ColumnDefinitions[2], mMinutesSelector),
+				(mSelectorGrid.ColumnDefinitions[3], mSecondsSelector)
+			}, (selector, showBorder) => selector.BorderThickness = new Thickness(showBorder ? 1 : 0, 0, 0, 0));
 
 			// Determine the set of day, hour and minute values to show.
 

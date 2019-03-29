@@ -15,7 +15,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				MinWidth = Width,
 				MaxHeight = Height
 			};
-
+			
 			return presenter;
 		}
 	}
