@@ -79,6 +79,7 @@
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
 			<tsp:TimeSpanEditor x:Name="Editor" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Width="200" Height="400"/>
+			<tsp:TimeSpanPicker HorizontalAlignment="Left" Height="100" Margin="529,252,0,0" VerticalAlignment="Top" Width="346" BorderBrush="#FFDB4545" BorderThickness="1,1,1,1"/>
 		</Grid>
 	</SplitView>
 </Page>

@@ -1,6 +1,8 @@
 ﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
@@ -113,9 +115,12 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		public TimeSpanPicker()
 		{
+			DefaultStyleKey = typeof(TimeSpanPicker);
+
 			Loaded += TimeSpanPicker_Loaded;
 		}
 
+		private FrameworkElement mFlyoutAnchor;
 		private Button mFlyoutButton;
 		private TextBlock mDaysTextBlock;
 		private TextBlock mHoursTextBlock;
@@ -196,6 +201,7 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		{
 			base.OnApplyTemplate();
 
+			mFlyoutAnchor = GetTemplateChild("FlyoutAnchor") as FrameworkElement;
 			mFlyoutButton = GetTemplateChild("FlyoutButton") as Button;
 			mDaysTextBlock = GetTemplateChild("DaysTextBlock") as TextBlock;
 			mHoursTextBlock = GetTemplateChild("HoursTextBlock") as TextBlock;
@@ -214,12 +220,21 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 
 		private void FlyoutButton_Click(object sender, RoutedEventArgs e)
 		{
-			var p = new TimeSpanPickerFlyout()
+			var flyout = new TimeSpanPickerFlyout()
 			{
-				Placement = Windows.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Right
+				Width = Width,
+				Height = 500,
+				AreOpenCloseAnimationsEnabled = false
 			};
 
-			p.ShowAt(this);
+			var options = new FlyoutShowOptions()
+			{
+				ShowMode = FlyoutShowMode.Standard,
+				Placement = FlyoutPlacementMode.Right,
+				Position = new Point(0, 0) // If we don't specify this, the flyout shifts a few pixels to the right.
+			};
+
+			flyout.ShowAt(mFlyoutAnchor, options);
 		}
 
 		private void ConfigureLabels()
