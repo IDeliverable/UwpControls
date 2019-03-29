@@ -236,12 +236,12 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			mSecondsSelector.SelectionChanged += Selector_SelectionChanged;
 		}
 
-		protected override Size MeasureOverride(Size availableSize)
-		{
-			var desiredWidth = Math.Max(MinWidth, Math.Min(mOptimalWidth, availableSize.Width));
-			var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Width));
-			return new Size(desiredWidth, mOptimalHeight);
-		}
+		//protected override Size MeasureOverride(Size availableSize)
+		//{
+		//	var desiredWidth = Math.Max(MinWidth, Math.Min(mOptimalWidth, availableSize.Width));
+		//	var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Height));
+		//	return new Size(desiredWidth, desiredHeight);
+		//}
 
 		protected override void OnKeyDown(KeyRoutedEventArgs e)
 		{

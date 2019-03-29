@@ -268,8 +268,8 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			var desiredWidth = Math.Max(MinWidth, Math.Min(mOptimalWidth, availableSize.Width));
-			var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Width));
-			return new Size(desiredWidth, mOptimalHeight);
+			var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Height));
+			return new Size(desiredWidth, desiredHeight);
 		}
 
 		private void FlyoutButton_Click(object sender, RoutedEventArgs e)
