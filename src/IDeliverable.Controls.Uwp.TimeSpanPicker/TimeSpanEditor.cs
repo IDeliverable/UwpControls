@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -131,6 +132,9 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 				typeof(TimeSpanEditor),
 				new PropertyMetadata("S"));
 
+		private const int mOptimalWidth = 240;
+		private const int mOptimalHeight = 400;
+
 		public TimeSpanEditor()
 		{
 			DefaultStyleKey = typeof(TimeSpanEditor);
@@ -230,6 +234,13 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			mHoursSelector.SelectionChanged += Selector_SelectionChanged;
 			mMinutesSelector.SelectionChanged += Selector_SelectionChanged;
 			mSecondsSelector.SelectionChanged += Selector_SelectionChanged;
+		}
+
+		protected override Size MeasureOverride(Size availableSize)
+		{
+			var desiredWidth = Math.Max(MinWidth, Math.Min(mOptimalWidth, availableSize.Width));
+			var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Width));
+			return new Size(desiredWidth, mOptimalHeight);
 		}
 
 		protected override void OnKeyDown(KeyRoutedEventArgs e)

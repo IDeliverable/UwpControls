@@ -142,11 +142,33 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 						editor.UpdateLabels();
 					}));
 
+		private const int mOptimalWidth = 240;
+		private const int mOptimalHeight = 32;
+		private const int mOptimalFlyoutHeight = 400;
+
 		public TimeSpanPicker()
 		{
 			DefaultStyleKey = typeof(TimeSpanPicker);
+
+			mFlyout = new TimeSpanPickerFlyout()
+			{
+				Picker = this,
+				Height = mOptimalFlyoutHeight,
+				AreOpenCloseAnimationsEnabled = false
+			};
+
+			mFlyout.Closing += Flyout_Closing;
+
+			mFlyoutOptions = new FlyoutShowOptions()
+			{
+				ShowMode = FlyoutShowMode.Standard,
+				Placement = FlyoutPlacementMode.Right,
+				Position = new Point(0, 0) // If we don't specify this, the flyout shifts a few pixels to the right.
+			};
 		}
 
+		private readonly TimeSpanPickerFlyout mFlyout;
+		private readonly FlyoutShowOptions mFlyoutOptions;
 		private FrameworkElement mFlyoutAnchor;
 		private Button mFlyoutButton;
 		private Grid mLabelGrid;
@@ -253,23 +275,26 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 			mFlyoutButton.Click += FlyoutButton_Click;
 		}
 
+		protected override Size MeasureOverride(Size availableSize)
+		{
+			var desiredWidth = Math.Max(MinWidth, Math.Min(mOptimalWidth, availableSize.Width));
+			var desiredHeight = Math.Max(MinHeight, Math.Min(mOptimalHeight, availableSize.Width));
+			return new Size(desiredWidth, mOptimalHeight);
+		}
+
 		private void FlyoutButton_Click(object sender, RoutedEventArgs e)
 		{
-			var flyout = new TimeSpanPickerFlyout()
-			{
-				Width = Width,
-				Height = 500,
-				AreOpenCloseAnimationsEnabled = false
-			};
+			mFlyout.Width = ActualWidth;
+			mFlyout.ShowAt(mFlyoutAnchor, mFlyoutOptions);
+		}
 
-			var options = new FlyoutShowOptions()
+		private void Flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+		{
+			if (sender is TimeSpanPickerFlyout timeSpanPickerFlyout)
 			{
-				ShowMode = FlyoutShowMode.Standard,
-				Placement = FlyoutPlacementMode.Right,
-				Position = new Point(0, 0) // If we don't specify this, the flyout shifts a few pixels to the right.
-			};
-
-			flyout.ShowAt(mFlyoutAnchor, options);
+				if (timeSpanPickerFlyout.Editor != null)
+					Value = timeSpanPickerFlyout.Editor.Value;
+			}
 		}
 
 		private void ConfigureLabelVisibility()
