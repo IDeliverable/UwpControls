@@ -1,6 +1,9 @@
 ﻿using System;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 {
@@ -9,7 +12,11 @@ namespace IDeliverable.Controls.Uwp.TimeSpanPicker
 		public TimeSpanPickerFlyout(TimeSpanPicker picker)
 		{
 			mPicker = picker;
-			mEditor = new TimeSpanEditor();
+			mEditor = new TimeSpanEditor()
+			{
+				BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemChromeHighColor"]),
+				BorderThickness = new Thickness(1)
+			};
 
 			Opening += Flyout_Opening;
 			Closing += Flyout_Closing;
